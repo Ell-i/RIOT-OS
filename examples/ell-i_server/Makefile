@@ -2,12 +2,12 @@
 APPLICATION = ell-i_server
 
 # If no BOARD is found in the environment, use this default:
-BOARD ?= adc_f401
+BOARD ?= nucleo-f401
 
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
-BOARD_INSUFFICIENT_MEMORY := chronos msb-430 msb-430h
+BOARD_WHITELIST := nucleo-f401
 
 # Include packages that pull up and auto-init the link layer.
 # NOTE: 6LoWPAN will be included if IEEE802.15.4 devices are present
@@ -15,7 +15,7 @@ USEMODULE += gnrc_netdev_default
 #USEMODULE += gnrc_netif_default
 USEMODULE += auto_init_gnrc_netif
 USEMODULE += encx24j600
-USEMODULE += gnrc_netdev2
+USEMODULE += gnrc_netdev
 # Specify the minimum networking modules for IPv6
 USEMODULE += gnrc_ipv6
 USEMODULE += gnrc_ndp
@@ -35,7 +35,7 @@ USEMODULE += ps
 USEPKG += microcoap
 
 CFLAGS += -DMICROCOAP_DEBUG
-CFLAGS += "-DENCX24J600_SPI=SPI_0" "-DENCX24J600_CS=GPIO_PIN(PORT_C,10)" "-DENCX24J600_INT=GPIO_PIN(PORT_D,2)"
+CFLAGS += "-DENCX24J600_SPI=SPI_DEV(0)" "-DENCX24J600_CS=GPIO_PIN(PORT_C,10)" "-DENCX24J600_INT=GPIO_PIN(PORT_D,2)"
 
 
 # Comment this out to disable code in RIOT that does safety checking
