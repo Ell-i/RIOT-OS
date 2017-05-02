@@ -323,27 +323,27 @@ static int handle_input_analog_PA_ALL(coap_rw_buffer_t *scratch,
     int len = sizeof(response);
     //int len = 0;
     //int i = 1;
-    int samp[3] = {0, 0, 0};
+    static int samp[ADC_NUMOF]; // Static to initialize to zero
    
-        for (int i = 0; i < ADC_NUMOF; i++) {
-            if (adc_init(ADC_LINE(i))) {
-               printf("inittipinitti %i poks\n", i);
-               //
-             }
-            samp[i] = adc_sample(ADC_LINE(i), RES);
-            printf("ADC_LINE(%i):  ", i);
+    for (int i = 0; i < ADC_NUMOF; i++) {
+	if (adc_init(ADC_LINE(i))) {
+	    printf("inittipinitti %i poks\n", i);
+	    //
+	}
+	samp[i] = adc_sample(ADC_LINE(i), RES);
+	printf("ADC_LINE(%i):  ", i);
 
-            char digits[5];
-            digits[0] = samp[i] / 1000 + 48;
-            digits[1] = (samp[i] / 100) % 10 + 48;
-            digits[2] = (samp[i] / 10) % 10 + 48;
-            digits[3] = samp[i] % 10 + 48;
-            digits[4] = '\0';
+	char digits[5];
+	digits[0] = samp[i] / 1000 + 48;
+	digits[1] = (samp[i] / 100) % 10 + 48;
+	digits[2] = (samp[i] / 10) % 10 + 48;
+	digits[3] = samp[i] % 10 + 48;
+	digits[4] = '\0';
 
-            printf("%s ", digits); 
-            strncat(rsp, digits, 4);
-            strncat(rsp, " ", 1);
-        }
+	printf("%s ", digits);
+	strncat(rsp, digits, 4);
+	strncat(rsp, " ", 1);
+    }
 
     memcpy(response, rsp, len);
     printf("\n"); 
