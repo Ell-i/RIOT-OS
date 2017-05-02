@@ -12,3 +12,15 @@ cd RIOT-OS
 git submodule init
 git submodule update
 ```
+For compiling you need `arm-none-eabi-gcc` and tools; for flashing `openocd`.
+
+To build and flash the binary
+```
+cd examples/examples/ell-i_server
+make flash
+```
+
+The binary prints its IPv6 configuration over the USB terminal.  
+If your Python installation has the `serial` module, 
+you can simply use `make term` to connect to the USB terminal.
+Otherwise, use e.g. `screen` or `minicom`.
