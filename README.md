@@ -8,6 +8,7 @@ To start using RIOT-OS you have to checkout the submodule too.
 
 ```
 git clone https://github.com/point-h2020/RIOT-OS.git
+cd RIOT-OS
 git submodule init
 git submodule update
 ```
