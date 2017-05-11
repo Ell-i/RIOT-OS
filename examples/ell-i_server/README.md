@@ -1,61 +1,65 @@
-microcoap server example
-========================
+# Ell-i nanocoap server
 
 This application is meant to get you started with implementing a CoAP server on RIOT.
 It uses the GNRC network stack through RIOT's conn socket API.
 
-Usage
-=====
+## Compilation
 
-$ docker run -it --rm --privileged -v $(pwd):/data/riotbuild riotdeve make -C examples/ell-i_server BOARD=adc_f401 QUIET=1
+If you are using the dockers files from this repo, the following command creates a new docker instance for compiling and then removes it once done:
+```
+$ docker run -it --rm --privileged -v $(pwd)/../..:/data/riotbuild riotdeve make -C examples/ell-i_server QUIET=1
+```
+Alternatively, if you have local compilation environment, you can just use, in this directory:
+```
+$ make
+```
 
-then flash the board with:
-$ docker run -it --rm --privileged -v $(pwd):/data/riotbuild riotflash make -C examples/ell-i_server BOARD=adc_f401 QUIET=1 flash
+## Flashing
 
+Using the docker containers:
+```
+$ docker run -it --rm --privileged -v $(pwd)/../..:/data/riotbuild riotflash make -C examples/ell-i_server QUIET=1 flash
+```
+Using native environment:
+```
+$ make flash
+```
 
+Using Serial-ver-USB as a monitoring interface with e.g. minicom (use sudo!) - you might need to reset the embedded device first -
+you'll see a screen like the one below:.
 
-The link-layer address in this case is "fe80::da80:39ff:fe02:c0e7", the only
-"scope: local" address set.
-
-Using USB as a monitoring interface with e.g. minicom (use sudo!) - you might need to reset the embedded device first - you'll see a screen like below.
-
-
+```
 main(): This is RIOT! (Version: 2016.07-devel-279-g29f0ee-485ec5859977-2016.04)
-Successfully initialized ADC_LINE(0)                                            
-ELL-i microcoap example application                                             
-Configured network interfaces:                                                  
-Iface  5   HWaddr: d8:80:39:02:c0:e7                                            
+Successfully initialized ADC_LINE(0)
+RIOT Ell-i nanocoap application
+Configured network interfaces:
+Iface  5   HWaddr: d8:80:39:02:c0:e7
                                                                                 
-           MTU:1500  HL:64  RTR  RTR_ADV                                        
-           Source address length: 6                                             
-           Link type: wired                                                     
-           inet6 addr: ff02::1/128  scope: local [multicast]                    
-           inet6 addr: fe80::da80:39ff:fe02:c0e7/64  scope: local               
-           inet6 addr: ff02::1:ff02:c0e7/128  scope: local [multicast]          
-           inet6 addr: ff02::2/128  scope: local [multicast]                    
-                                                                                
-Waiting for incoming UDP packet... 
+           MTU:1500  HL:64  RTR  RTR_ADV
+           Source address length: 6
+           Link type: wired
+           inet6 addr: ff02::1/128  scope: local [multicast]
+           inet6 addr: fe80::da80:39ff:fe02:c0e7/64  scope: local
+           inet6 addr: ff02::1:ff02:c0e7/128  scope: local [multicast]
+           inet6 addr: ff02::2/128  scope: local [multicast]
 
+Waiting for incoming UDP packet...
 
+```
 
+# Testing
 
-
-
-Testing
-=======
 There are multiple external CoAP clients you can use to test the server on native.
 
-libcoap CLI
------------
+## libcoap CLI
 
-(replace "fe80::f8bf:2bff:fe01:9ea3" with your link-layer address)
+NOTE! Do replace "fe80::f8bf:2bff:fe01:9ea3" with your link-layer address
 
 ```
 # coap-client "coap://[fe80::f8bf:2bff:fe01:9ea3%tap0]/riot/board"
 ```
 
-Copper (Firefox Plugin)
------------------------
+## Copper (Firefox Plugin)
 
 The Copper plugin for Firefox provides you with a nice graphical interface, but
 getting it to work with RIOT requires a little setup.
@@ -70,22 +74,22 @@ And build the application again using `make`.
 Enter the following into your `/etc/radvd.conf` (if it doesn't exist yet, create one):
 
 ```
-interface tap0
-{
-    AdvSendAdvert on;
-
-    MinRtrAdvInterval 3;
-    MaxRtrAdvInterval 10;
-
-    AdvDefaultPreference low;
-
-    prefix 2001:db8:1:0::/64
+    interface tap0
     {
-        AdvOnLink on;
-        AdvAutonomous on;
-        AdvRouterAddr off;
+        AdvSendAdvert on;
+
+        MinRtrAdvInterval 3;
+        MaxRtrAdvInterval 10;
+
+        AdvDefaultPreference low;
+
+       prefix 2001:db8:1:0::/64
+       {
+            AdvOnLink on;
+            AdvAutonomous on;
+            AdvRouterAddr off;
+       };
     };
-};
 ```
 
 (you can use `radvd -c` to check for syntax errors)
