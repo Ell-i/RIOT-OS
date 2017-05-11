@@ -11,20 +11,18 @@ BOARD_WHITELIST := nucleo-f401
 
 # Include packages that pull up and auto-init the link layer.
 # NOTE: 6LoWPAN will be included if IEEE802.15.4 devices are present
-USEMODULE += gnrc_netdev_default
-#USEMODULE += gnrc_netif_default
-USEMODULE += auto_init_gnrc_netif
+
 USEMODULE += encx24j600
+CFLAGS += "-DENCX24J600_SPI=SPI_DEV(0)" "-DENCX24J600_CS=GPIO_PIN(PORT_C,10)" "-DENCX24J600_INT=GPIO_PIN(PORT_D,2)"
+USEMODULE += gnrc_netdev_default
+USEMODULE += auto_init_gnrc_netif
 USEMODULE += gnrc_netdev
 # Specify the minimum networking modules for IPv6
-USEMODULE += gnrc_ipv6
+USEMODULE += gnrc_ipv6_default
 USEMODULE += gnrc_ndp
 # Specify the mandatory networking modules for IPv6 and UDP
-USEMODULE += gnrc_ipv6_router_default
 USEMODULE += gnrc_udp
-USEMODULE += gnrc_conn_udp
-# Add a routing protocol
-USEMODULE += gnrc_rpl
+USEMODULE += gnrc_sock_udp
 # Additional networking modules that can be dropped if not needed
 USEMODULE += gnrc_icmpv6_echo
 # include this for printing IP addresses
@@ -32,10 +30,9 @@ USEMODULE += shell
 USEMODULE += shell_commands
 USEMODULE += ps
 #
-USEPKG += microcoap
+USEPKG += nanocoap
 
-CFLAGS += -DMICROCOAP_DEBUG
-CFLAGS += "-DENCX24J600_SPI=SPI_DEV(0)" "-DENCX24J600_CS=GPIO_PIN(PORT_C,10)" "-DENCX24J600_INT=GPIO_PIN(PORT_D,2)"
+CFLAGS += -DNANOCOAP_DEBUG
 
 
 # Comment this out to disable code in RIOT that does safety checking
