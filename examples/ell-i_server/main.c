@@ -23,6 +23,7 @@
 #include "nanocoap_sock.h"
 
 #include "xtimer.h"
+#include "periph/adc.h"
 
 #define COAP_INBUF_SIZE (256U)
 
@@ -35,6 +36,29 @@ extern int _netif_config(int argc, char **argv);
 int main(void)
 {
     puts("RIOT Ell-i nanocoap application");
+
+    /* Initialise Arduino digital I/O pins, input by default */
+    gpio_init(ARDUINO_PIN_0,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_1,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_2,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_3,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_4,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_5,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_6,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_7,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_8,  GPIO_IN);
+    gpio_init(ARDUINO_PIN_10, GPIO_IN);
+    gpio_init(ARDUINO_PIN_11, GPIO_IN);
+    gpio_init(ARDUINO_PIN_12, GPIO_IN);
+    gpio_init(ARDUINO_PIN_13, GPIO_IN);
+
+    /* Initialise Arduino analog I/O pins */
+    adc_init(ADC_LINE(0));
+    adc_init(ADC_LINE(1));
+    adc_init(ADC_LINE(2));
+    adc_init(ADC_LINE(3));
+    adc_init(ADC_LINE(4));
+    adc_init(ADC_LINE(5));
 
     /* nanocoap_server uses gnrc sock which uses gnrc which needs a msg queue */
     msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
