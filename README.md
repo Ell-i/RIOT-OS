@@ -1,5 +1,6 @@
 # RIOT-OS
-self contained repo for the RIOT-OS development.
+
+This is a self contained repo for the RIOT-OS based development within the POINT project.
 
 # Getting started
 
