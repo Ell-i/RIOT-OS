@@ -4,8 +4,12 @@ This is a self contained repo for the RIOT-OS based development within the POINT
 
 # Getting started
 
-The repository references RIOT-OS as submodule to keep a proper track of commit history and attribution.
-To start using RIOT-OS you have to checkout the submodule too.
+This example uses the STM Nucleo F401 board, see
+http://www.st.com/resource/en/user_manual/DM00105823.pdf
+
+The repository references RIOT-OS as submodule to keep a proper track
+of commit history and attribution.  To start using RIOT-OS you have to
+checkout the submodule too.
 
 ## Clone the main repsitory
 
