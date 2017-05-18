@@ -39,7 +39,7 @@ int main(void)
 
     /* Initialise Arduino digital I/O pins, input by default */
     gpio_init(ARDUINO_PIN_0,  GPIO_IN);
-    gpio_init(ARDUINO_PIN_1,  GPIO_IN);
+    /* Do NOT initialise D1: reason unknown */
     gpio_init(ARDUINO_PIN_2,  GPIO_IN);
     gpio_init(ARDUINO_PIN_3,  GPIO_IN);
     gpio_init(ARDUINO_PIN_4,  GPIO_IN);
@@ -48,9 +48,7 @@ int main(void)
     gpio_init(ARDUINO_PIN_7,  GPIO_IN);
     gpio_init(ARDUINO_PIN_8,  GPIO_IN);
     gpio_init(ARDUINO_PIN_10, GPIO_IN);
-    gpio_init(ARDUINO_PIN_11, GPIO_IN);
-    gpio_init(ARDUINO_PIN_12, GPIO_IN);
-    gpio_init(ARDUINO_PIN_13, GPIO_IN);
+    /* Do NOT initialise D11-D13, used for ENC28J60 SPI */
 
     /* Initialise Arduino analog I/O pins */
     adc_init(ADC_LINE(0));
