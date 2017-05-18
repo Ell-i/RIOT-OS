@@ -21,7 +21,7 @@ ssize_t coap_arduino_digital_get(coap_pkt_t *pkt, uint8_t *buf, size_t len, void
 
     return coap_reply_simple(
 	pkt, COAP_CODE_CONTENT, buf, len,
-	COAP_FORMAT_TEXT, (unsigned char *) (gpio_read(gpio_pin)? "1": "0"), 1);
+	COAP_FORMAT_TEXT, (unsigned char *) (gpio_read(gpio_pin)? "1": "0"), 2);
 }
 
 ssize_t coap_arduino_digital_put(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param) {

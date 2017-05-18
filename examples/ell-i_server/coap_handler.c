@@ -29,10 +29,15 @@ static ssize_t _riot_board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len,
 
 const coap_resource_t coap_resources[] = {
     COAP_WELL_KNOWN_CORE_DEFAULT_HANDLER,
-    { "/riot/board",  COAP_GET, _riot_board_handler },
 
+    { "/arduino/A0",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(0)    },
+    { "/arduino/A1",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(1)    },
+    { "/arduino/A2",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(2)    },
+    { "/arduino/A3",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(3)    },
+    { "/arduino/A4",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(4)    },
+    { "/arduino/A5",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(5)    },
     { "/arduino/D0",  COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_0  },
-    { "/arduino/D1",  COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_1  },
+    /* D1 used for other purposes */
     { "/arduino/D2",  COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_2  },
     { "/arduino/D3",  COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_3  },
     { "/arduino/D4",  COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_4  },
@@ -42,18 +47,10 @@ const coap_resource_t coap_resources[] = {
     { "/arduino/D8",  COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_8  },
     { "/arduino/D9",  COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_9  },
     { "/arduino/D10", COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_10 },
-    { "/arduino/D11", COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_11 },
-    { "/arduino/D12", COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_12 },
-    { "/arduino/D13", COAP_GET, coap_arduino_digital_get, (void*)ARDUINO_PIN_13 },
-    { "/arduino/A0",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(0)    },
-    { "/arduino/A1",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(1)    },
-    { "/arduino/A2",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(2)    },
-    { "/arduino/A3",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(3)    },
-    { "/arduino/A4",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(4)    },
-    { "/arduino/A5",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(5)    },
+    /* D11-D13 used for Ethernet SPI */
 
     { "/arduino/D0",  COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_0  },
-    { "/arduino/D1",  COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_1  },
+    /* D1 used for other purposes */
     { "/arduino/D2",  COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_2  },
     { "/arduino/D3",  COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_3  },
     { "/arduino/D4",  COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_4  },
@@ -63,9 +60,9 @@ const coap_resource_t coap_resources[] = {
     { "/arduino/D8",  COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_8  },
     { "/arduino/D9",  COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_9  },
     { "/arduino/D10", COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_10 },
-    { "/arduino/D11", COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_11 },
-    { "/arduino/D12", COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_12 },
-    { "/arduino/D13", COAP_PUT, coap_arduino_digital_put, (void*)ARDUINO_PIN_13 },
+    /* D11-D13 used for Ethernet SPI */
+
+    { "/riot/board",  COAP_GET, _riot_board_handler, NULL },
 };
 
 const unsigned coap_resources_numof = sizeof(coap_resources) / sizeof(coap_resources[0]);
