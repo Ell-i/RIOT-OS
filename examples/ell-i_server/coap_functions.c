@@ -40,6 +40,17 @@ ssize_t coap_arduino_digital_put(coap_pkt_t *pkt, uint8_t *buf, size_t len, void
 	COAP_FORMAT_NONE, NULL, 0);
 }
 
+ssize_t coap_arduino_digital_getput(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param) {
+    const unsigned method_flag = coap_method2flag(coap_get_code_detail(pkt));
+    if (COAP_GET & method_flag) {
+	return coap_arduino_digital_get(pkt, buf, len, param);
+    } else if (COAP_PUT & method_flag) {
+	return coap_arduino_digital_put(pkt, buf, len, param);
+    }
+    abort();
+}
+
+
 ssize_t coap_arduino_analog_get(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param)
 {
     uint32_t adc_line = (uint32_t) param;
