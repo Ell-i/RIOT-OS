@@ -37,7 +37,7 @@ ssize_t coap_arduino_digital_put(coap_pkt_t *pkt, uint8_t *buf, size_t len, void
     }
     return coap_reply_simple(
 	pkt, COAP_CODE_CHANGED, buf, len,
-	COAP_FORMAT_NONE, NULL, 0);
+	COAP_FORMAT_TEXT, NULL, 0);
 }
 
 ssize_t coap_arduino_digital_getput(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param) {
