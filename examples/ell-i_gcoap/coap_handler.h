@@ -1,7 +1,6 @@
 
 extern void gcoap_register_handlers(void);
-extern void gcoap_send_notifications(void);
-extern void gcoap_for_resources(void(*function)(const coap_resource_t*, void *), void *param);
+extern void gcoap_for_resources(void(*function)(const coap_resource_t*, void*), void *param);
 
 #define COAP_RESOURCE(path_, methods_, handler_, extra_) \
     (coap_resource_t *) & (elli_coap_resource_t) { \

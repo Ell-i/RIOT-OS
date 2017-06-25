@@ -27,6 +27,7 @@
 #include "periph/adc.h"
 
 #include "coap_handler.h"
+#include "coap_observer.h"
 
 #define MAIN_QUEUE_SIZE     (8)
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
@@ -69,9 +70,15 @@ int main(void)
     puts("Configured network interfaces:");
     _netif_config(0, NULL);
 
-    /* Start the coap listener */
+    /* Register the CoAP resource handlers */
     gcoap_register_handlers();
-    gcoap_init();
-     // Apparently things will continue running even if we return?
+
+    /* Start CoAP observer thread */
+    (void)gcoap_observe_init();
+
+    /* Start the coap listener thread */
+    (void)gcoap_init();
+
+    /* Things will continue running even if we return */
     return 0;
 }

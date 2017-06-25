@@ -60,3 +60,9 @@ static gcoap_listener_t _listener = {
 void gcoap_register_handlers(void) {
     gcoap_register_listener(&_listener);
 }
+
+void gcoap_for_resources(void(*function)(const coap_resource_t *,void *), void *param) {
+    for (int i = 0; i < RESOURCE_COUNT; i++) {
+	function(*(_resources + i), param);
+    }
+}

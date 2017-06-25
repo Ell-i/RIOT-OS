@@ -17,10 +17,6 @@
 #include "coap_functions.h"
 #include "coap_observer.h"
 
-#ifndef COAP_METHOD_NOTIFY
-#define COAP_METHOD_NOTIFY (COAP_METHOD_DELETE + 1)
-#endif
-
 ssize_t coap_arduino_digital_get(
     coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
 
