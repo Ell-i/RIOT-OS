@@ -27,35 +27,33 @@ static ssize_t _riot_board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len,
             COAP_FORMAT_TEXT, (uint8_t*)RIOT_BOARD, strlen(RIOT_BOARD));
 }
 
-static const coap_resource_t _resources[] = {
-    { "/a/A0",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(0)    },
-    { "/a/A1",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(1)    },
-    { "/a/A2",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(2)    },
-    { "/a/A3",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(3)    },
-    { "/a/A4",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(4)    },
-    { "/a/A5",  COAP_GET, coap_arduino_analog_get,  (void*)ADC_LINE(5)    },
-    { "/a/D0",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_0  },
+static const coap_resource_t *_resources[] = {
+    COAP_RESOURCE( "/a/A0",  COAP_GET, coap_arduino_analog_get, ADC_LINE(0) ),
+    COAP_RESOURCE( "/a/A1",  COAP_GET, coap_arduino_analog_get, ADC_LINE(1) ),
+    COAP_RESOURCE( "/a/A2",  COAP_GET, coap_arduino_analog_get, ADC_LINE(2) ),
+    COAP_RESOURCE( "/a/A3",  COAP_GET, coap_arduino_analog_get, ADC_LINE(3) ),
+    COAP_RESOURCE( "/a/A4",  COAP_GET, coap_arduino_analog_get, ADC_LINE(4) ),
+    COAP_RESOURCE( "/a/A5",  COAP_GET, coap_arduino_analog_get, ADC_LINE(5) ),
+    COAP_RESOURCE( "/a/D0",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_0 ),
     /* D1 used for other purposes */
-    { "/a/D2",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_2  },
-    { "/a/D3",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_3  },
-    { "/a/D4",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_4  },
-    { "/a/D5",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_5  },
-    { "/a/D6",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_6  },
-    { "/a/D7",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_7  },
-    { "/a/D8",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_8  },
-    { "/a/D9",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_9  },
-    { "/a/D10", COAP_GET | COAP_PUT, coap_arduino_digital_getput, (void*)ARDUINO_PIN_10 },
+    COAP_RESOURCE( "/a/D2",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_2 ),
+    COAP_RESOURCE( "/a/D3",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_3 ),
+    COAP_RESOURCE( "/a/D4",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_4 ),
+    COAP_RESOURCE( "/a/D5",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_5 ),
+    COAP_RESOURCE( "/a/D6",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_6 ),
+    COAP_RESOURCE( "/a/D7",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_7 ),
+    COAP_RESOURCE( "/a/D8",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_8 ),
+    COAP_RESOURCE( "/a/D9",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_9 ),
+    COAP_RESOURCE( "/a/D10", COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_10),
     /* D11-D13 used for Ethernet SPI */
 
-    { "/riot/board",  COAP_GET, _riot_board_handler, NULL },
+    COAP_RESOURCE( "/riot/board",  COAP_GET, _riot_board_handler, 0 ),
 };
 
-static const unsigned _resources_numof = sizeof(_resources) / sizeof(_resources[0]);
+#define RESOURCE_COUNT (sizeof(_resources) / sizeof(_resources[0]))
 
 static gcoap_listener_t _listener = {
-    (coap_resource_t *)&_resources[0],
-    sizeof(_resources) / sizeof(_resources[0]),
-    NULL
+    _resources, RESOURCE_COUNT, NULL
 };
 
 void gcoap_register_handlers(void) {

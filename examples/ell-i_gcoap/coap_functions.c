@@ -16,6 +16,7 @@
 #include "nanocoap.h"
 #include "coap_functions.h"
 
+
 ssize_t coap_arduino_digital_get(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param) {
     uint32_t gpio_pin = (uint32_t) param;
 
