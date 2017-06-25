@@ -47,7 +47,7 @@ USEMODULE += ps
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the
 # development process:
-CFLAGS += -DDEVELHELP
+CFLAGS += -DDEVELHELP -fplan9-extensions
 
 # We need ADC and timers
 FEATURES_REQUIRED = periph_adc
