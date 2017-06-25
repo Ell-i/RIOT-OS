@@ -15,18 +15,34 @@
 #include "fmt.h"
 #include "nanocoap.h"
 #include "coap_functions.h"
+#include "coap_observer.h"
 
+#ifndef COAP_METHOD_NOTIFY
+#define COAP_METHOD_NOTIFY (COAP_METHOD_DELETE + 1)
+#endif
 
-ssize_t coap_arduino_digital_get(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param) {
-    uint32_t gpio_pin = (uint32_t) param;
+ssize_t coap_arduino_digital_get(
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
+
+    uint32_t gpio_pin = res->item;
 
     return coap_reply_simple(
 	pkt, COAP_CODE_CONTENT, buf, len,
 	COAP_FORMAT_TEXT, (unsigned char *) (gpio_read(gpio_pin)? "1": "0"), 2);
 }
 
-ssize_t coap_arduino_digital_put(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param) {
-    uint32_t gpio_pin = (uint32_t) param;
+ssize_t coap_arduino_digital_notify(
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
+
+    uint32_t gpio_pin = res->item;
+
+    return gcoap_observe_notify_uint32(pkt, buf, res, gpio_read(gpio_pin));
+}
+
+ssize_t coap_arduino_digital_put(
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
+
+    uint32_t gpio_pin = res->item;
 
     // Automatically convert PIN to output
     gpio_init(gpio_pin, GPIO_OUT); // XXX Should do only once, not always
@@ -41,20 +57,25 @@ ssize_t coap_arduino_digital_put(coap_pkt_t *pkt, uint8_t *buf, size_t len, void
 	COAP_FORMAT_TEXT, NULL, 0);
 }
 
-ssize_t coap_arduino_digital_getput(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param) {
-    const unsigned method_flag = coap_method2flag(coap_get_code_detail(pkt));
-    if (COAP_GET & method_flag) {
-	return coap_arduino_digital_get(pkt, buf, len, param);
-    } else if (COAP_PUT & method_flag) {
-	return coap_arduino_digital_put(pkt, buf, len, param);
+ssize_t coap_arduino_digital_getput(
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
+
+    const unsigned method = coap_get_code_detail(pkt);
+    if (COAP_METHOD_GET == method) {
+	return coap_arduino_digital_get(pkt, buf, len, res);
+    } else if (COAP_METHOD_PUT == method) {
+	return coap_arduino_digital_put(pkt, buf, len, res);
+    } else if (COAP_METHOD_NOTIFY == method) {
+	return coap_arduino_digital_notify(pkt, buf, len, res);
     }
     abort();
 }
 
 
-ssize_t coap_arduino_analog_get(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *param)
+ssize_t coap_arduino_analog_get(
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res)
 {
-    uint32_t adc_line = (uint32_t) param;
+    uint32_t adc_line = res->item;
 
     const uint16_t sample = adc_sample(adc_line, 12 /* Resolution in bits */);
 

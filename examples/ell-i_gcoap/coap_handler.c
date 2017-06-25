@@ -17,6 +17,7 @@
 
 #include "coap_functions.h"
 #include "coap_handler.h"
+#include "coap_observer.h"
 
 static ssize_t _riot_board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len,
 				   void *ignored)
