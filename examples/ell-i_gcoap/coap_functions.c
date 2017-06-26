@@ -10,9 +10,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#define ENABLE_DEBUG (1)
+#include "debug.h"
+
 #include "periph/gpio.h"
 #include "periph/adc.h"
-#include "fmt.h"
 #include "nanocoap.h"
 #include "coap_functions.h"
 #include "coap_observer.h"
@@ -74,7 +76,7 @@ ssize_t coap_arduino_analog_get(
 
     const uint16_t sample = adc_sample(adc_line, ADC_RES_10BIT);
 
-    printf("ADC_LINE(i): %i\n", sample);
+    DEBUG("CoAP GET: ADC_LINE(i): %i\n", sample);
 
     // XXX: Change to use fmt.h instead
     unsigned char digits[5];
@@ -83,8 +85,6 @@ ssize_t coap_arduino_analog_get(
     digits[2] = (sample /   10) % 10 + '0';
     digits[3] = (sample /    1) % 10 + '0';
     digits[4] = '\0';
-
-    printf("ADC_LINE(i): %s\n", digits);
 
     return coap_reply_simple(
 	pkt, COAP_CODE_CONTENT, buf, len,
