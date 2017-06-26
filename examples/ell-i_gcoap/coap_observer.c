@@ -26,6 +26,8 @@ static void _try_send_notification(const coap_resource_t *res, void *param/*igno
      * try to send it
      */
     if (res->methods & COAP_NOTIFY) {
+	DEBUG("CoAP: Considering observe of %s...", res->path);
+
 	/* Minimally initialise a CoAP PDU as a NOTIFY pseudo method.
 	 * The handler will call gcoap_obs_init, so we don't need to do much here.
 	 */
@@ -34,9 +36,11 @@ static void _try_send_notification(const coap_resource_t *res, void *param/*igno
 
 	ssize_t pkt_len = res->handler(&pkt, buf, sizeof(buf), res);
         if (pkt_len <= 0) {
+	    DEBUG("no observers.\n");
 	    return;
 	}
 	gcoap_obs_send(buf, pkt_len, res);
+	DEBUG("notification sent.\n");
     }
 }
 
@@ -53,6 +57,7 @@ static void *_thread_loop(void *arg)
 
     xtimer_ticks32_t last_wakeup = xtimer_now();
 
+    DEBUG("CoAP: Starting observer thread.\n");
     for (;;) {
 	gcoap_for_resources(_try_send_notification, NULL/*ignored*/);
 
@@ -92,14 +97,11 @@ ssize_t gcoap_observe_notify_uint32(
 
     switch (err) {
     case GCOAP_OBS_INIT_OK:
-	DEBUG("coap: sending an observe notification\n");
 	const size_t payload_len = fmt_u16_dec((char *)pkt->payload, value);
 	return gcoap_finish(pkt, payload_len, COAP_FORMAT_TEXT);
     case GCOAP_OBS_INIT_UNUSED:
-	DEBUG("coap: observer not found\n");
 	return -ENOTCONN;
     case GCOAP_OBS_INIT_ERR:
-	DEBUG("coap: error initializing observe notification\n");
 	return -ENOMEM;
     }
     abort();
