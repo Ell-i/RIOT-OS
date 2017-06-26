@@ -32,7 +32,7 @@ static void _try_send_notification(const coap_resource_t *res, void *param/*igno
 	pkt.hdr = (coap_hdr_t *)buf;
 	(void)coap_build_hdr(pkt.hdr, COAP_TYPE_NON, NULL, 0, COAP_METHOD_NOTIFY, 0);
 
-	ssize_t pkt_len = res->handler(&pkt, buf, sizeof(buf));
+	ssize_t pkt_len = res->handler(&pkt, buf, sizeof(buf), res);
         if (pkt_len <= 0) {
 	    return;
 	}
