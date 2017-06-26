@@ -44,13 +44,13 @@ ssize_t coap_arduino_digital_put(
     gpio_init(gpio_pin, GPIO_OUT); // XXX Should do only once, not always
 
     if (pkt->payload[0] == '1') {
-        gpio_set(GPIO_PIN(0, 10));    
+        gpio_set(gpio_pin);
     } else {
-        gpio_clear(GPIO_PIN(0, 10));    
+        gpio_clear(gpio_pin);
     }
     return coap_reply_simple(
 	pkt, COAP_CODE_CHANGED, buf, len,
-	COAP_FORMAT_TEXT, NULL, 0);
+	COAP_FORMAT_NONE, NULL, 0);
 }
 
 ssize_t coap_arduino_digital_getput(
@@ -73,7 +73,7 @@ ssize_t coap_arduino_analog_get(
 {
     uint32_t adc_line = res->item;
 
-    const uint16_t sample = adc_sample(adc_line, 12 /* Resolution in bits */);
+    const uint16_t sample = adc_sample(adc_line, ADC_RES_10BIT);
 
     printf("ADC_LINE(i): %i\n", sample);
 
@@ -90,5 +90,3 @@ ssize_t coap_arduino_analog_get(
 	pkt, COAP_CODE_CONTENT, buf, len,
 	COAP_FORMAT_TEXT, (uint8_t*)digits, sizeof(digits)-1);
 }
-
-
