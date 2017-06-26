@@ -98,7 +98,7 @@ ssize_t coap_arduino_analog_notify(
 
     const uint16_t sample = adc_sample(adc_line, ADC_RES_10BIT);
 
-    DEBUG("CoAP Observe notify: ADC_LINE(i): %i\n", sample);
+    DEBUG("sample=%i...", sample);
 
     return gcoap_observe_notify_uint32(pkt, buf, res, sample);
 }
