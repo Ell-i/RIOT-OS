@@ -96,9 +96,10 @@ ssize_t gcoap_observe_notify_uint32(
     int err = gcoap_obs_init(pkt, buf, sizeof(buf), resource);
 
     switch (err) {
-    case GCOAP_OBS_INIT_OK:
+    case GCOAP_OBS_INIT_OK: {
 	const size_t payload_len = fmt_u16_dec((char *)pkt->payload, value);
 	return gcoap_finish(pkt, payload_len, COAP_FORMAT_TEXT);
+    }
     case GCOAP_OBS_INIT_UNUSED:
 	return -ENOTCONN;
     case GCOAP_OBS_INIT_ERR:
