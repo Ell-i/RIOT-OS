@@ -25,9 +25,12 @@
 
 #include "xtimer.h"
 #include "periph/adc.h"
+#include "luid.h"
+#include "fmt.h"
 
 #include "coap_handler.h"
 #include "coap_observer.h"
+#include "coap_directory.h"
 
 #define MAIN_QUEUE_SIZE     (8)
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
@@ -78,6 +81,13 @@ int main(void)
 
     /* Start the coap listener thread */
     (void)gcoap_init();
+
+    /* Register at a CoAP resource directory */
+    uint64_t uuid;
+    luid_get(&uuid, sizeof(uuid));
+    char uuidbuf[sizeof(uuid) * 2];
+    fmt_u64_hex(uuidbuf, uuid);
+    gcoap_directory_register_simple(uuidbuf, sizeof(uuidbuf));
 
     /* Things will continue running even if we return */
     return 0;
