@@ -56,27 +56,27 @@ ssize_t coap_arduino_digital_put(
 ssize_t coap_arduino_digital_getput(
     coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
 
-    const unsigned method = coap_get_code_detail(pkt);
-    if (COAP_METHOD_GET == method) {
+    switch (coap_get_code_detail(pkt)) {
+    case COAP_METHOD_GET:
 	return coap_arduino_digital_get(pkt, buf, len, res);
-    } else if (COAP_METHOD_PUT == method) {
+    case COAP_METHOD_PUT:
 	return coap_arduino_digital_put(pkt, buf, len, res);
-    } else if (COAP_METHOD_NOTIFY == method) {
+    case COAP_METHOD_NOTIFY:
 	return coap_arduino_digital_notify(pkt, buf, len, res);
     }
     abort();
 }
 
-
 ssize_t coap_arduino_analog_get(
-    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res)
-{
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
+
     uint32_t adc_line = res->item;
 
     const uint16_t sample = adc_sample(adc_line, ADC_RES_10BIT);
 
     printf("ADC_LINE(i): %i\n", sample);
 
+    // XXX: Change to use fmt.h instead
     unsigned char digits[5];
     digits[0] = (sample / 1000) % 10 + '0';
     digits[1] = (sample /  100) % 10 + '0';
