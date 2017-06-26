@@ -90,3 +90,26 @@ ssize_t coap_arduino_analog_get(
 	pkt, COAP_CODE_CONTENT, buf, len,
 	COAP_FORMAT_TEXT, (uint8_t*)digits, sizeof(digits)-1);
 }
+
+ssize_t coap_arduino_analog_notify(
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
+
+    uint32_t adc_line = res->item;
+
+    const uint16_t sample = adc_sample(adc_line, ADC_RES_10BIT);
+
+    DEBUG("CoAP Observe notify: ADC_LINE(i): %i\n", sample);
+
+    return gcoap_observe_notify_uint32(pkt, buf, res, sample);
+}
+
+ssize_t coap_arduino_analog_get_not(
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *res) {
+    switch (coap_get_code_detail(pkt)) {
+    case COAP_METHOD_GET:
+	return coap_arduino_analog_get(pkt, buf, len, res);
+    case COAP_METHOD_NOTIFY:
+	return coap_arduino_analog_notify(pkt, buf, len, res);
+    }
+    abort();
+}

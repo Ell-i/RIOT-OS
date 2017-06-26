@@ -29,12 +29,12 @@ static ssize_t _riot_board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len,
 }
 
 static const coap_resource_t *_resources[] = {
-    COAP_RESOURCE( "/a/A0",  COAP_GET, coap_arduino_analog_get, ADC_LINE(0) ),
-    COAP_RESOURCE( "/a/A1",  COAP_GET, coap_arduino_analog_get, ADC_LINE(1) ),
-    COAP_RESOURCE( "/a/A2",  COAP_GET, coap_arduino_analog_get, ADC_LINE(2) ),
-    COAP_RESOURCE( "/a/A3",  COAP_GET, coap_arduino_analog_get, ADC_LINE(3) ),
-    COAP_RESOURCE( "/a/A4",  COAP_GET, coap_arduino_analog_get, ADC_LINE(4) ),
-    COAP_RESOURCE( "/a/A5",  COAP_GET, coap_arduino_analog_get, ADC_LINE(5) ),
+    COAP_RESOURCE( "/a/A0",  COAP_NOTIFY | COAP_GET, coap_arduino_analog_get_not, ADC_LINE(0) ),
+    COAP_RESOURCE( "/a/A1",  COAP_NOTIFY | COAP_GET, coap_arduino_analog_get_not, ADC_LINE(1) ),
+    COAP_RESOURCE( "/a/A2",  COAP_NOTIFY | COAP_GET, coap_arduino_analog_get_not, ADC_LINE(2) ),
+    COAP_RESOURCE( "/a/A3",  COAP_NOTIFY | COAP_GET, coap_arduino_analog_get_not, ADC_LINE(3) ),
+    COAP_RESOURCE( "/a/A4",  COAP_NOTIFY | COAP_GET, coap_arduino_analog_get_not, ADC_LINE(4) ),
+    COAP_RESOURCE( "/a/A5",  COAP_NOTIFY | COAP_GET, coap_arduino_analog_get_not, ADC_LINE(5) ),
     COAP_RESOURCE( "/a/D0",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_0 ),
     /* D1 used for other purposes */
     COAP_RESOURCE( "/a/D2",  COAP_GET | COAP_PUT, coap_arduino_digital_getput, ARDUINO_PIN_2 ),

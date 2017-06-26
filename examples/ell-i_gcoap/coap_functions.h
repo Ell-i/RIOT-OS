@@ -21,6 +21,8 @@ ssize_t coap_arduino_digital_getput(
     coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *p);
 ssize_t coap_arduino_analog_get (
     coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *p);
+ssize_t coap_arduino_analog_get_not (
+    coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *p);
 /* XXX TBD
 ssize_t coap_arduino_pwm_put(
     coap_pkt_t *pkt, uint8_t *buf, size_t len, elli_coap_resource_t *p);
