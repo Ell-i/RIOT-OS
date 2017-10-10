@@ -15,9 +15,13 @@ CFLAGS += "-DENCX24J600_SPI=SPI_DEV(0)" "-DENCX24J600_CS=GPIO_PIN(PORT_C,10)" "-
 USEMODULE += gnrc_netdev_default
 USEMODULE += auto_init_gnrc_netif
 USEMODULE += gnrc_ipv6_default
+USEMODULE += gnrc_icmpv6_echo
 
 # Run the simple CoRE resource directory
-USEMODULE += rdcli_simple_standalone
+USEMODULE += gcoap
+USEMODULE += od
+USEMODULE += fmt
+# USEMODULE += rdcli_simple_standalone
 
 # Include the shell for testing purposes
 USEMODULE += shell
