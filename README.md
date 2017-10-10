@@ -34,13 +34,13 @@ git submodule update
 
 For compiling you need `arm-none-eabi-gcc` and tools; for flashing `openocd`.
 
-To build and flash the binary
+To build the ACM ICN demo version from Berlin in September 2017:
 ```
-cd examples/examples/ell-i_server
+cd examples/ell-i_rdcli_simple
 make flash
 ```
 
-The binary prints its IPv6 configuration over the USB terminal.  
+The binary prints its IPv6 configuration over the USB terminal.
 If your Python installation has the `serial` module, 
 you can simply use `make term` to connect to the USB terminal.
 Otherwise, use e.g. `screen` or `minicom`.
