@@ -44,3 +44,16 @@ The binary prints its IPv6 configuration over the USB terminal.
 If your Python installation has the `serial` module, 
 you can simply use `make term` to connect to the USB terminal.
 Otherwise, use e.g. `screen` or `minicom`.
+
+## Flashing without compiling (not tested)
+
+```
+    cd examples/ell-i_rdcli_simple
+    RIOTBASE=$(cd ../..; pwd)/RIOT
+	export RIOTBOARD=$RIOTBASE/boards
+	export BOARD=nucleo-f401
+	export APPLICATION=ell-i_rdcli_simple
+	export HEXFILE=bin/nucleo-f401/ell-i_rdcli_simple.hex
+
+    sh $RIOTBASE/dist/tools/openocd/openocd.sh flash
+```
