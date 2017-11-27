@@ -7,6 +7,14 @@ BOARD ?= nucleo-f401
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
+## Redefine the number of CoAP observe clients
+##
+## At the moment we want to support all resources.  In this
+## example there are 16 resources.  If you add more and
+## want to observe them, you need to bump this up.
+GCOAP_OBS_REGISTRATIONS_MAX = 16
+CFLAGS += "-DGCOAP_OBS_REGISTRATIONS_MAX=$(GCOAP_OBS_REGISTRATIONS_MAX)"
+
 # Use ENC24J600 Ethernet hardware
 USEMODULE += encx24j600
 CFLAGS += "-DENCX24J600_SPI=SPI_DEV(0)" "-DENCX24J600_CS=GPIO_PIN(PORT_C,10)" "-DENCX24J600_INT=GPIO_PIN(PORT_D,2)"
