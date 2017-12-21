@@ -58,10 +58,10 @@ If using Mac OS X or if our USB device rights are correct in Linux:
 ```
     cd examples/ell-i_rdcli_simple
     RIOTBASE=$(cd ../..; pwd)/RIOT
-	export RIOTBOARD=$RIOTBASE/boards
-	export BOARD=nucleo-f401
-	export APPLICATION=ell-i_rdcli_simple
-	export HEXFILE=bin/nucleo-f401/ell-i_rdcli_simple.hex
+    export RIOTBOARD=$RIOTBASE/boards
+    export BOARD=nucleo-f401
+    export APPLICATION=ell-i_rdcli_simple
+    export HEXFILE=bin/nucleo-f401/ell-i_rdcli_simple.hex
 
     sh $RIOTBASE/dist/tools/openocd/openocd.sh flash
 ```
@@ -70,12 +70,12 @@ If our USB device rights are incorrect in Linux:
 
 ```
     cd examples/ell-i_rdcli_simple
-	sudo sh
+    sudo sh
     RIOTBASE=$(cd ../..; pwd)/RIOT
-	export RIOTBOARD=$RIOTBASE/boards
-	export BOARD=nucleo-f401
-	export APPLICATION=ell-i_rdcli_simple
-	export HEXFILE=bin/nucleo-f401/ell-i_rdcli_simple.hex
+    export RIOTBOARD=$RIOTBASE/boards
+    export BOARD=nucleo-f401
+    export APPLICATION=ell-i_rdcli_simple
+    export HEXFILE=bin/nucleo-f401/ell-i_rdcli_simple.hex
 
     sh $RIOTBASE/dist/tools/openocd/openocd.sh flash
 ```
