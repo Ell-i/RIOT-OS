@@ -16,7 +16,6 @@
 #include <periph/gpio.h>
 #include <periph/adc.h>
 
-#include "nanocoap.h"
 #include "coap_functions.h"
 #include "coap_observer.h"
 
