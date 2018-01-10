@@ -7,11 +7,12 @@
  */
 
 #include <stdlib.h>
-#include "net/gcoap.h"
-#include "fmt.h"
 
 #define ENABLE_DEBUG (1)
-#include "debug.h"
+#include <debug.h>
+
+#include <net/gcoap.h>
+#include <fmt.h>
 
 #include "coap_observer.h"
 #include "coap_handler.h"
