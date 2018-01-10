@@ -15,6 +15,7 @@
 
 #include <periph/gpio.h>
 #include <periph/adc.h>
+#include <fmt.h>
 
 #include "coap_functions.h"
 #include "coap_observer.h"
@@ -27,7 +28,10 @@ ssize_t gcoap_reply_simple(
     const uint8_t *payload,
     uint8_t payload_len) {
 
-    gcoap_resp_init(pkt, buf, len, code);
+    int err = gcoap_resp_init(pkt, buf, len, code);
+    if (err < 0) {
+	return err; // Unexpected error
+    }
     memcpy(pkt->payload, payload, payload_len);
     return gcoap_finish(pkt, payload_len, ct);
 }
@@ -94,17 +98,12 @@ ssize_t coap_arduino_analog_get(
 
     DEBUG("CoAP GET: ADC_LINE(i): %i\n", sample);
 
-    // XXX: Change to use fmt.h instead
-    unsigned char digits[5];
-    digits[0] = (sample / 1000) % 10 + '0';
-    digits[1] = (sample /  100) % 10 + '0';
-    digits[2] = (sample /   10) % 10 + '0';
-    digits[3] = (sample /    1) % 10 + '0';
-    digits[4] = '\0';
-
-    return gcoap_reply_simple(
-	pkt, COAP_CODE_CONTENT, buf, len,
-	COAP_FORMAT_TEXT, (uint8_t*)digits, sizeof(digits)-1);
+    int err = gcoap_resp_init(pkt, buf, len, COAP_CODE_CONTENT);
+    if (err < 0) {
+	return err; // Unexpected error
+    }
+    const size_t payload_len = fmt_u16_dec((char *)pkt->payload, sample);
+    return gcoap_finish(pkt, payload_len, COAP_FORMAT_TEXT);
 }
 
 ssize_t coap_arduino_analog_notify(
