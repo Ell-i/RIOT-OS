@@ -15,11 +15,11 @@ checkout the submodule too.
 
 If you don't have your SSH key installed in your github account (and you do remember your password):
 ```
-git clone https://github.com/point-h2020/RIOT-OS.git
+git clone https://github.com/Ell-i/RIOT-OS.git
 ```
 If you have installed your SSH key at your github account, it is preferable to use it:
 ```
-git clone git@github.com:point-h2020/RIOT-OS.git
+git clone git@github.com:Ell-i/RIOT-OS.git
 ```
 
 ## Initialise RIOT as a git submodule, from Ell-i RIOT github fork
