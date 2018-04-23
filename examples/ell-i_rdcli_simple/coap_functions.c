@@ -62,7 +62,7 @@ ssize_t coap_arduino_digital_put(
     // Automatically convert PIN to output
     gpio_init(gpio_pin, GPIO_OUT); // XXX Should do only once, not always
 
-    DEBUG("CaAP PUT: payload='%s'\n", pkt->payload);
+    DEBUG("CoAP PUT: payload='%s'\n", pkt->payload);
     if (pkt->payload[0] == '1') {
 	DEBUG("CoAP PUT: pin %lu set\n", gpio_pin);
         gpio_set(gpio_pin);

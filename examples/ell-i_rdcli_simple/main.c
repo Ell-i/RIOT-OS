@@ -42,14 +42,14 @@ int main(void)
     puts("based on CoAP simplified RD registration example!\n");
 
     /* Initialise Arduino digital I/O pins, input by default */
-    /* Do NOT initialise D0: shell thread will block on a mutex for unknown reason */
+    /* Do NOT initialise D0: shell thread will block on a mutex for an unknown reason */
     /* Do NOT initialise D1: reason unknown */
-    gpio_init(ARDUINO_PIN_2,  GPIO_OUT);
-    gpio_init(ARDUINO_PIN_3,  GPIO_OUT);
-    gpio_init(ARDUINO_PIN_4,  GPIO_OUT);
-    gpio_init(ARDUINO_PIN_5,  GPIO_OUT);
-    gpio_init(ARDUINO_PIN_6,  GPIO_OUT);
-    gpio_init(ARDUINO_PIN_7,  GPIO_OUT);
+    gpio_init(ARDUINO_PIN_2,  GPIO_OUT);  gpio_clear(ARDUINO_PIN_2);
+    gpio_init(ARDUINO_PIN_3,  GPIO_OUT);  gpio_clear(ARDUINO_PIN_3);
+    gpio_init(ARDUINO_PIN_4,  GPIO_OUT);  gpio_clear(ARDUINO_PIN_4);
+    gpio_init(ARDUINO_PIN_5,  GPIO_OUT);  gpio_clear(ARDUINO_PIN_5);
+    gpio_init(ARDUINO_PIN_6,  GPIO_OUT);  gpio_clear(ARDUINO_PIN_6);
+    gpio_init(ARDUINO_PIN_7,  GPIO_OUT);  gpio_clear(ARDUINO_PIN_7);
     gpio_init(ARDUINO_PIN_8,  GPIO_IN);
     gpio_init(ARDUINO_PIN_10, GPIO_IN);
     /* Do NOT initialise D11-D13, used for ENC28J60 SPI */
